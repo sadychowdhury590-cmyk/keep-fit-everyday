@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useContext, useState } from "react";
@@ -14,17 +13,15 @@ const MyPlan = () => {
     setSave,
   } = useContext(userContext);
 
-    const [sortBy, setSortBy] = useState<'Duration' | 'Calories' | 'Rating '>('Rating ')
+  const [sortBy, setSortBy] = useState("Duration");
   const [plan, setPlan] = useState("today");
 
   const handleTab = () => {
     setPlan("today");
-    console.log("today");
   };
 
   const handleTab2 = () => {
     setPlan("save");
-    console.log("save");
   };
 
   const minutes = todayPlan.reduce(
@@ -46,6 +43,27 @@ const MyPlan = () => {
     const remaining = save.filter((item) => item.id !== id);
     setSave(remaining);
   };
+
+  const currentList = plan === "today" ? todayPlan : save;
+
+  const sortedList = [...currentList].sort((a, b) => {
+    if (sortBy === "Duration") {
+      return Number(a.duration || 0) - Number(b.duration || 0);
+    }
+
+    if (sortBy === "Calories") {
+      return (
+        Number(a.caloriesBurned || 0) -
+        Number(b.caloriesBurned || 0)
+      );
+    }
+
+    if (sortBy === "Rating") {
+      return Number(b.rating || 0) - Number(a.rating || 0);
+    }
+
+    return 0;
+  });
 
   return (
     <main className="my-8 min-h-screen bg-[#0b0b0b] px-5 py-10 text-white md:px-8 lg:px-12">
@@ -71,7 +89,7 @@ const MyPlan = () => {
             </p>
 
             <h2 className="mt-3 text-4xl font-black text-[#ccff00]">
-              {plan === "today" ? todayPlan.length : save.length}
+              {todayPlan.length}
             </h2>
           </div>
 
@@ -100,11 +118,10 @@ const MyPlan = () => {
         {/* Tabs */}
         <div className="mt-10">
 
-          <div className="tabs tabs-lift w-full flex ">
+          <div className="tabs tabs-lift w-full">
 
             {/* Today's Plan Tab */}
-       
-            
+
             <input
               onClick={handleTab}
               type="radio"
@@ -115,6 +132,33 @@ const MyPlan = () => {
             />
 
             <div className="tab-content min-h-[300px] w-full border-base-300 bg-[#151515] p-6 text-white">
+
+              {/* Sort */}
+              <div className="mb-6 flex items-center justify-end gap-3">
+
+                <label className="text-sm font-bold text-gray-400">
+                  Sort By
+                </label>
+
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="select select-success bg-[#0b0b0b] text-white"
+                >
+                  <option value="Duration">
+                    Duration
+                  </option>
+
+                  <option value="Calories">
+                    Calories
+                  </option>
+
+                  <option value="Rating">
+                    Rating
+                  </option>
+                </select>
+
+              </div>
 
               {todayPlan.length === 0 ? (
 
@@ -147,7 +191,7 @@ const MyPlan = () => {
 
                   <div className="space-y-4">
 
-                    {todayPlan.map((item) => (
+                    {sortedList.map((item) => (
 
                       <div
                         key={item.id}
@@ -179,7 +223,6 @@ const MyPlan = () => {
                               {item.equipment}
                             </p>
 
-                            {/* Stats */}
                             <div className="mt-5 flex flex-wrap gap-6 border-t border-white/10 pt-4">
 
                               <div>
@@ -216,7 +259,6 @@ const MyPlan = () => {
 
                           </div>
 
-                          {/* Buttons */}
                           <div className="mt-5 flex flex-wrap gap-2">
 
                             <Link
@@ -257,6 +299,7 @@ const MyPlan = () => {
             </div>
 
             {/* Saved Tab */}
+
             <input
               type="radio"
               name="my_plan_tabs"
@@ -266,6 +309,33 @@ const MyPlan = () => {
             />
 
             <div className="tab-content min-h-[300px] w-full border-base-300 bg-[#151515] p-6 text-white">
+
+              {/* Sort */}
+              <div className="mb-6 flex items-center justify-end gap-3">
+
+                <label className="text-sm font-bold text-gray-400">
+                  Sort By
+                </label>
+
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="select select-success bg-[#0b0b0b] text-white"
+                >
+                  <option value="Duration">
+                    Duration
+                  </option>
+
+                  <option value="Calories">
+                    Calories
+                  </option>
+
+                  <option value="Rating">
+                    Rating
+                  </option>
+                </select>
+
+              </div>
 
               {save.length === 0 ? (
 
@@ -298,14 +368,13 @@ const MyPlan = () => {
 
                   <div className="space-y-4">
 
-                    {save.map((item) => (
+                    {sortedList.map((item) => (
 
                       <div
                         key={item.id}
                         className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b] sm:flex-row"
                       >
 
-                        {/* Image */}
                         <div className="relative h-52 w-full shrink-0 sm:h-auto sm:w-52">
 
                           <Image
@@ -317,7 +386,6 @@ const MyPlan = () => {
 
                         </div>
 
-                        {/* Info */}
                         <div className="flex flex-1 flex-col justify-between p-5">
 
                           <div>
@@ -397,25 +465,6 @@ const MyPlan = () => {
               )}
 
             </div>
-           
-
-           {/* Sort */}
-        <div className="text-center my-6">
-          <select
-            value={sortBy}
-            onChange={(e) =>
-              setSortBy(
-                e.target.value as 'Duration' | 'Calories' | 'Rating '
-              )
-            }
-            className="select select-success"
-          >
-            <option value="Rating">Duration</option>
-            <option value="Calories">Calories</option>
-            <option value="Rating">Rating</option>
-          </select>
-        </div>
-
 
           </div>
 
@@ -427,4 +476,3 @@ const MyPlan = () => {
 };
 
 export default MyPlan;
-
