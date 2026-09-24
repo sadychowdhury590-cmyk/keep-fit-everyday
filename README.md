@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project Name:
+This is FitPlan website
 
-## Getting Started
+## Short description
+I created this website to help people manage and track their daily workouts. Users can count the exercises they complete each day, create and save their daily workout plans, and track how many minutes they spend exercising.
 
-First, run the development server:
+The website also allows users to view their workout history and monitor their daily fitness activities in one place. My goal was to create a simple and user-friendly platform that makes it easier for people to maintain a consistent workout routine.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+To build this website, I used **Next.js** for the frontend and **Tailwind CSS** for designing the user interface. I also used **DaisyUI** to create pre-built UI components such as cards and buttons. Finally, I used **React Toastify** to display notifications and success messages to users.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 5 Key Features of the Project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Daily Workout Tracking** — Users can track the exercises they complete each day.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Workout Plan Management** — Users can create and save their daily workout plans.
 
-## Deploy on Vercel
+3. **Workout Time Tracking** — Users can track the total time they spend exercising.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Save Workouts** — Users can save workouts for later use.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Workout History** — Users can view their saved workout activities and keep track of their fitness routine.

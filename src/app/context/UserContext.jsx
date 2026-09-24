@@ -1,17 +1,62 @@
-'use client'
-import { createContext, useState } from "react";
+"use client";
 
-export const userContext=createContext()
+import { createContext, useEffect, useState } from "react";
 
-const UserProvider = ({children}) => {
-    const[todayPlan,setTodayPlan]=useState([])
-    const[save,setSave]=useState([])
-    const values={
-        todayPlan,setTodayPlan,save,setSave
+export const userContext = createContext();
+
+const UserProvider = ({ children }) => {
+  const [todayPlan, setTodayPlan] = useState([]);
+  const [save, setSave] = useState([]);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Load data from localStorage
+  useEffect(() => {
+    const storedPlan = localStorage.getItem("todayPlan");
+    const storedSave = localStorage.getItem("save");
+
+    if (storedPlan) {
+      setTodayPlan(JSON.parse(storedPlan));
     }
-    return ( 
-        <userContext.Provider value={values}>{children}</userContext.Provider>
-     );
+
+    if (storedSave) {
+      setSave(JSON.parse(storedSave));
+    }
+
+    setHydrated(true);
+  }, []);
+
+  // Save today's plan
+  useEffect(() => {
+    if (!hydrated) return;
+
+    localStorage.setItem(
+      "todayPlan",
+      JSON.stringify(todayPlan)
+    );
+  }, [todayPlan, hydrated]);
+
+  // Save saved workouts
+  useEffect(() => {
+    if (!hydrated) return;
+
+    localStorage.setItem(
+      "save",
+      JSON.stringify(save)
+    );
+  }, [save, hydrated]);
+
+  const values = {
+    todayPlan,
+    setTodayPlan,
+    save,
+    setSave,
+  };
+
+  return (
+    <userContext.Provider value={values}>
+      {children}
+    </userContext.Provider>
+  );
 };
 
 export default UserProvider;
