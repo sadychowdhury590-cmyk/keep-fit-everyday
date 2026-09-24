@@ -13,7 +13,8 @@ const LibraryCard = ({ data }) => {
           <Image
             src={data?.image}
             alt={data?.name || "Workout"}
-            fill
+           width={409}
+           height={400}
             className="object-cover transition duration-500 group-hover:scale-105"
           />
 

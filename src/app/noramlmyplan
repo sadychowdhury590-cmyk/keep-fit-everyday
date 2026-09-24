@@ -1,39 +1,22 @@
-
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { userContext } from "../context/UserContext";
 
 const MyPlan = () => {
-  const {
-    todayPlan = [],
-    setTodayPlan,
-    save = [],
-    setSave,
-  } = useContext(userContext);
+  const { todayPlan, setTodayPlan, save } = useContext(userContext);
 
-    const [sortBy, setSortBy] = useState<'Duration' | 'Calories' | 'Rating '>('Rating ')
-  const [plan, setPlan] = useState("today");
-
-  const handleTab = () => {
-    setPlan("today");
-    console.log("today");
-  };
-
-  const handleTab2 = () => {
-    setPlan("save");
-    console.log("save");
-  };
+  const exercises = todayPlan.length;
 
   const minutes = todayPlan.reduce(
-    (total, item) => total + Number(item.duration || 0),
+    (total, item) => total + item.duration,
     0
   );
 
   const calories = todayPlan.reduce(
-    (total, item) => total + Number(item.caloriesBurned || 0),
+    (total, item) => total + item.caloriesBurned,
     0
   );
 
@@ -42,16 +25,10 @@ const MyPlan = () => {
     setTodayPlan(remaining);
   };
 
-  const handleRemoveSave = (id) => {
-    const remaining = save.filter((item) => item.id !== id);
-    setSave(remaining);
-  };
-
   return (
     <main className="my-8 min-h-screen bg-[#0b0b0b] px-5 py-10 text-white md:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
 
-        {/* Header */}
         <div>
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl">
             MY PLAN
@@ -62,7 +39,6 @@ const MyPlan = () => {
           </p>
         </div>
 
-        {/* Metrics */}
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
           <div className="rounded-2xl border border-white/10 bg-[#151515] p-6">
@@ -71,7 +47,7 @@ const MyPlan = () => {
             </p>
 
             <h2 className="mt-3 text-4xl font-black text-[#ccff00]">
-              {plan === "today" ? todayPlan.length : save.length}
+              {exercises}
             </h2>
           </div>
 
@@ -97,16 +73,10 @@ const MyPlan = () => {
 
         </div>
 
-        {/* Tabs */}
         <div className="mt-10">
+          <div className="tabs tabs-lift w-full">
 
-          <div className="tabs tabs-lift w-full flex ">
-
-            {/* Today's Plan Tab */}
-       
-            
             <input
-              onClick={handleTab}
               type="radio"
               name="my_plan_tabs"
               className="tab text-white [--tab-color:#ccff00] checked:text-black"
@@ -117,7 +87,6 @@ const MyPlan = () => {
             <div className="tab-content min-h-[300px] w-full border-base-300 bg-[#151515] p-6 text-white">
 
               {todayPlan.length === 0 ? (
-
                 <div className="flex min-h-[250px] flex-col items-center justify-center text-center">
 
                   <h2 className="text-2xl font-black uppercase text-white">
@@ -136,9 +105,7 @@ const MyPlan = () => {
                   </Link>
 
                 </div>
-
               ) : (
-
                 <div>
 
                   <h2 className="mb-6 text-xl font-bold uppercase text-white">
@@ -148,29 +115,23 @@ const MyPlan = () => {
                   <div className="space-y-4">
 
                     {todayPlan.map((item) => (
-
                       <div
                         key={item.id}
                         className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b] sm:flex-row"
                       >
 
-                        {/* Image */}
                         <div className="relative h-52 w-full shrink-0 sm:h-auto sm:w-52">
-
                           <Image
                             src={item.image}
                             alt={item.name}
                             fill
                             className="object-cover"
                           />
-
                         </div>
 
-                        {/* Info */}
                         <div className="flex flex-1 flex-col justify-between p-5">
 
                           <div>
-
                             <h3 className="text-xl font-black uppercase">
                               {item.name}
                             </h3>
@@ -179,7 +140,6 @@ const MyPlan = () => {
                               {item.equipment}
                             </p>
 
-                            {/* Stats */}
                             <div className="mt-5 flex flex-wrap gap-6 border-t border-white/10 pt-4">
 
                               <div>
@@ -188,7 +148,7 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold">
-                                  ⏱ {item.duration || 0}m
+                                  ⏱ {item.duration}m
                                 </p>
                               </div>
 
@@ -198,7 +158,7 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold">
-                                  🔥 {item.caloriesBurned || 0}
+                                  🔥 {item.caloriesBurned}
                                 </p>
                               </div>
 
@@ -208,15 +168,13 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold text-[#ccff00]">
-                                  ★ {item.rating || 0}
+                                  ★ {item.rating}
                                 </p>
                               </div>
 
                             </div>
-
                           </div>
 
-                          {/* Buttons */}
                           <div className="mt-5 flex flex-wrap gap-2">
 
                             <Link
@@ -245,22 +203,18 @@ const MyPlan = () => {
                         </div>
 
                       </div>
-
                     ))}
 
                   </div>
 
                 </div>
-
               )}
 
             </div>
 
-            {/* Saved Tab */}
             <input
               type="radio"
               name="my_plan_tabs"
-              onClick={handleTab2}
               className="tab text-white [--tab-color:#ccff00] checked:text-black"
               aria-label="Saved"
             />
@@ -268,7 +222,6 @@ const MyPlan = () => {
             <div className="tab-content min-h-[300px] w-full border-base-300 bg-[#151515] p-6 text-white">
 
               {save.length === 0 ? (
-
                 <div className="flex min-h-[250px] flex-col items-center justify-center text-center">
 
                   <h2 className="text-2xl font-black uppercase text-white">
@@ -287,9 +240,7 @@ const MyPlan = () => {
                   </Link>
 
                 </div>
-
               ) : (
-
                 <div>
 
                   <h2 className="mb-6 text-xl font-bold uppercase text-white">
@@ -299,29 +250,23 @@ const MyPlan = () => {
                   <div className="space-y-4">
 
                     {save.map((item) => (
-
                       <div
                         key={item.id}
                         className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b] sm:flex-row"
                       >
 
-                        {/* Image */}
                         <div className="relative h-52 w-full shrink-0 sm:h-auto sm:w-52">
-
                           <Image
                             src={item.image}
                             alt={item.name}
                             fill
                             className="object-cover"
                           />
-
                         </div>
 
-                        {/* Info */}
                         <div className="flex flex-1 flex-col justify-between p-5">
 
                           <div>
-
                             <h3 className="text-xl font-black uppercase">
                               {item.name}
                             </h3>
@@ -338,7 +283,7 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold">
-                                  ⏱ {item.duration || 0}m
+                                  ⏱ {item.duration}m
                                 </p>
                               </div>
 
@@ -348,7 +293,7 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold">
-                                  🔥 {item.caloriesBurned || 0}
+                                  🔥 {item.caloriesBurned}
                                 </p>
                               </div>
 
@@ -358,12 +303,11 @@ const MyPlan = () => {
                                 </p>
 
                                 <p className="mt-1 text-sm font-bold text-[#ccff00]">
-                                  ★ {item.rating || 0}
+                                  ★ {item.rating}
                                 </p>
                               </div>
 
                             </div>
-
                           </div>
 
                           <div className="mt-5 flex flex-wrap gap-2">
@@ -375,50 +319,21 @@ const MyPlan = () => {
                               View Details
                             </Link>
 
-                            <button
-                              onClick={() => handleRemoveSave(item.id)}
-                              className="rounded-full border border-white/20 px-4 py-2 text-xs font-bold uppercase transition hover:border-red-500 hover:text-red-500"
-                            >
-                              ✕
-                            </button>
-
                           </div>
 
                         </div>
 
                       </div>
-
                     ))}
 
                   </div>
 
                 </div>
-
               )}
 
             </div>
-           
-
-           {/* Sort */}
-        <div className="text-center my-6">
-          <select
-            value={sortBy}
-            onChange={(e) =>
-              setSortBy(
-                e.target.value as 'Duration' | 'Calories' | 'Rating '
-              )
-            }
-            className="select select-success"
-          >
-            <option value="Rating">Duration</option>
-            <option value="Calories">Calories</option>
-            <option value="Rating">Rating</option>
-          </select>
-        </div>
-
 
           </div>
-
         </div>
 
       </div>
@@ -427,4 +342,3 @@ const MyPlan = () => {
 };
 
 export default MyPlan;
-

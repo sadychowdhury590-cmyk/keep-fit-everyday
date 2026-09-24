@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="mx-auto flex max-w-7xl items-center justify-between">
 
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link href={'/'} className="flex items-center gap-3">
             <Image
               height={48}
               width={48}
@@ -42,7 +42,7 @@ const Navbar = () => {
             <span className="text-lg font-bold tracking-wide text-white">
               FITLOG
             </span>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <div className="flex items-center gap-3">
