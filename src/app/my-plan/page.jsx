@@ -35,19 +35,33 @@ const MyPlan = () => {
     0
   );
 
-  const handleRemove = (id) => {
+const handleRemove = (id) => {
+  const item = todayPlan.find((item) => item.id === id);
 
-    const remaining = todayPlan.filter((item) => item.id !== id);
-    setTodayPlan(remaining);
-    toast.success("Successfully deleted TodayPlan item")
-  };
+  const remaining = todayPlan.filter((item) => item.id !== id);
+  setTodayPlan(remaining);
 
-  const handleRemoveSave = (id) => {
-    const remaining = save.filter((item) => item.id !== id);
-    setSave(remaining);
-    toast.success("Successfully deleted save item")
-  };
+  toast.success(`${item.name} deleted successfully!`);
+};
 
+const handleRemove2 = (id) => {
+  const item = todayPlan.find((item) => item.id === id);
+
+  const remaining = todayPlan.filter((item) => item.id !== id);
+  setTodayPlan(remaining);
+
+  toast.success(`${item.name} marked as done!`);
+};
+
+const handleRemoveSave = (id) => {
+  const item = save.find((item) => item.id === id);
+
+  const remaining = save.filter((item) => item.id !== id);
+
+  setSave(remaining);
+
+  toast.success(`${item.name} deleted successfully!`);
+};
   const currentList = plan === "today" ? todayPlan : save;
 
   const sortedList = [...currentList].sort((a, b) => {
@@ -273,7 +287,7 @@ const MyPlan = () => {
                             </Link>
 
                             <button
-                              onClick={() => handleRemove(item.id)}
+                              onClick={() => handleRemove2(item.id)}
                               className="flex-1 rounded-full bg-[#ccff00] px-4 py-2 text-xs font-black uppercase text-black transition hover:bg-white"
                             >
                               Mark as Done

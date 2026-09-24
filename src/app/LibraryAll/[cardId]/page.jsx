@@ -6,22 +6,19 @@ import SaveForLaterBtn from "@/app/Buttons/SaveForLaterBtn";
 const Page = async ({ params }) => {
   const { cardId } = await params;
 
-  const res = await fetch(
-    `https://api.abcz.workers.dev/api/fitlog/${cardId}`
-  );
+  const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${cardId}`);
 
   const data = await res.json();
 
   return (
     <main className="min-h-screen bg-[#0b0b0b] my-8 px-5 py-10 text-white md:px-8 lg:px-12">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
-
         {/* Dynamic Image */}
         <div className="relative h-[400px] overflow-hidden rounded-2xl md:h-[550px]">
           <Image
             src={data.image}
             alt={data.name}
-           width={800}
+            width={800}
             height={400}
             priority
             className="object-cover"
@@ -30,7 +27,6 @@ const Page = async ({ params }) => {
 
         {/* Details */}
         <div className="flex flex-col justify-center">
-
           {/* Muscle Groups */}
           <div className="mb-5 flex flex-wrap gap-2">
             {data.muscleGroups?.map((muscle, index) => (
@@ -62,46 +58,33 @@ const Page = async ({ params }) => {
             </div>
 
             <div className="divide-y divide-white/10">
-
               <div className="flex justify-between px-5 py-4">
                 <span className="text-sm text-[#8b8d91]">Equipment</span>
-                <span className="text-sm font-bold">
-                  {data.equipment}
-                </span>
+                <span className="text-sm font-bold">{data.equipment}</span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
                 <span className="text-sm text-[#8b8d91]">Difficulty</span>
-                <span className="text-sm font-bold">
-                  {data.difficulty}
-                </span>
+                <span className="text-sm font-bold">{data.difficulty}</span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
                 <span className="text-sm text-[#8b8d91]">Sets</span>
-                <span className="text-sm font-bold">
-                  {data.sets}
-                </span>
+                <span className="text-sm font-bold">{data.sets}</span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
                 <span className="text-sm text-[#8b8d91]">Reps</span>
-                <span className="text-sm font-bold">
-                  {data.reps}
-                </span>
+                <span className="text-sm font-bold">{data.reps}</span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
                 <span className="text-sm text-[#8b8d91]">Duration</span>
-                <span className="text-sm font-bold">
-                  {data.duration} min
-                </span>
+                <span className="text-sm font-bold">{data.duration} min</span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
-                <span className="text-sm text-[#8b8d91]">
-                  Calories
-                </span>
+                <span className="text-sm text-[#8b8d91]">Calories</span>
                 <span className="text-sm font-bold">
                   {data.caloriesBurned} kcal
                 </span>
@@ -113,15 +96,12 @@ const Page = async ({ params }) => {
                   ★ {data.rating}
                 </span>
               </div>
-
             </div>
           </div>
 
           {/* Instructions */}
           <div className="mt-8">
-            <h2 className="mb-5 text-xl font-black uppercase">
-              INSTRUCTIONS
-            </h2>
+            <h2 className="mb-5 text-xl font-black uppercase">INSTRUCTIONS</h2>
 
             <ol className="space-y-4">
               {data.instructions?.map((instruction, index) => (
@@ -141,11 +121,9 @@ const Page = async ({ params }) => {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-           <AddToPlanBtn key={data.id} data={data}/>
-
-            <SaveForLaterBtn key={data.name} data={data}/>
+            <AddToPlanBtn key={data.id} data={data} />
+            <SaveForLaterBtn key={data.name} data={data} />
           </div>
-
         </div>
       </div>
     </main>
