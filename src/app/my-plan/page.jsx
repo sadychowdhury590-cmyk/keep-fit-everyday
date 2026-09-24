@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { userContext } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 const MyPlan = () => {
   const {
@@ -35,13 +36,16 @@ const MyPlan = () => {
   );
 
   const handleRemove = (id) => {
+
     const remaining = todayPlan.filter((item) => item.id !== id);
     setTodayPlan(remaining);
+    toast.success("Successfully deleted TodayPlan item")
   };
 
   const handleRemoveSave = (id) => {
     const remaining = save.filter((item) => item.id !== id);
     setSave(remaining);
+    toast.success("Successfully deleted save item")
   };
 
   const currentList = plan === "today" ? todayPlan : save;
